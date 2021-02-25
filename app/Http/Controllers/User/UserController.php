@@ -1,26 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 Use App\Models\User;
 
-class SessionController extends Controller
+class UserController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function login(Request $request)
-    {
-        
-    }
-    
     /**
      * Display a listing of the resource.
      *
@@ -28,24 +16,26 @@ class SessionController extends Controller
      */
     public function index()
     {
-        return 'hw';
+        //
     }
 
     /**
-     * Create session once Auth::attempt returns true
+     * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request)
     {
         $request->validate([
-            'email' => 'required',
-            'password' => 'required',
+            'email' => 'required|string|unique:users',
+            'password' => 'required|string'
         ]);
-        $credentials = $request->only('email', 'password');
-        if(Auth::attempt($credentials)) {
-            return response()->json('ok', 200);
-        }
+        User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => Hash::make($request->input('password'))
+        ]);
+        return response()->json('User created' + $request->input('email'), 201); 
     }
 
     /**
@@ -99,9 +89,8 @@ class SessionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        Auth::logout($request->input('id'));
-        return response()->json('success', 200);
+        //
     }
 }
