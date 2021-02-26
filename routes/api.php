@@ -15,3 +15,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('', 'App\Http\Controllers\Auth\SessionController@index');
+
+Route::group([
+  'middleware' => 'api',
+  'prefix' => 'auth'
+], function ($router) {
+  Route::post('/login', 'App\Http\Controllers\Auth\SessionController@login');
+});

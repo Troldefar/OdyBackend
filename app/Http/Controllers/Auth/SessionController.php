@@ -7,9 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 Use App\Models\User;
+use Validator;
 
 class SessionController extends Controller
 {
+
+    /**
+     * Create a new auth controller instance 
+     * @return void
+    */
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -18,7 +29,20 @@ class SessionController extends Controller
      */
     public function login(Request $request)
     {
-        
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'password' => 'required|string|min:6'
+        ]);
+
+        if($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        if(!$token = auth()->attempt($validator->validated())) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        return $this->createNewToken($token);
     }
     
     /**
@@ -28,7 +52,7 @@ class SessionController extends Controller
      */
     public function index()
     {
-        return 'hw';
+        
     }
 
     /**
@@ -38,14 +62,7 @@ class SessionController extends Controller
      */
     public function create(Request $request)
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
-        $credentials = $request->only('email', 'password');
-        if(Auth::attempt($credentials)) {
-            return response()->json('ok', 200);
-        }
+       
     }
 
     /**
@@ -101,7 +118,31 @@ class SessionController extends Controller
      */
     public function destroy(Request $request)
     {
-        Auth::logout($request->input('id'));
+        Auth::logout();
         return response()->json('success', 200);
+    }
+
+    /**
+     * JWT 
+     * Refresh token
+     * @return $token 
+    */
+    public function refresh()
+    {
+        return $this->createNewToken(auth()->refresh());
+    }
+
+    /**
+     * JWT 
+     * Create the token
+    */
+    protected function createNewToken($token)
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60,
+            'user' => auth()->user()
+        ]);
     }
 }
