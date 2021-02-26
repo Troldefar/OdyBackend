@@ -1,26 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\User;
+namespace App\Http\Controllers\Guild;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
-Use App\Models\User;
-use Validator;
 
-class UserController extends Controller
+class GuildController extends Controller
 {
-
-    /**
-     * Create a new auth controller instance 
-     * @return void
-    */
-
-    public function __construct()
-    {
-        $this->middleware('auth:api', ['except' => ['create']]);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -36,18 +22,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Request $request)
+    public function create()
     {
-        $request->validate([
-            'email' => 'required|string|unique:users',
-            'password' => 'required|string'
-        ]);
-        User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => Hash::make($request->input('password'))
-        ]);
-        return response()->json('User created' + $request->input('email'), 201); 
+        //
     }
 
     /**

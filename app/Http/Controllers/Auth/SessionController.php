@@ -19,7 +19,7 @@ class SessionController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -52,7 +52,7 @@ class SessionController extends Controller
      */
     public function index()
     {
-        
+        return 123;
     }
 
     /**

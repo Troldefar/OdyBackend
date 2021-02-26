@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('', 'App\Http\Controllers\Auth\SessionController@index');
+Route::get('/', 'App\Http\Controllers\Auth\SessionController@index');
 
 Route::group([
   'middleware' => 'api',
@@ -23,14 +23,23 @@ Route::group([
     /**
      * Session
      * @return $sessionvars
-     */
+    */
     Route::post('/login', 'App\Http\Controllers\Auth\SessionController@login');
-    Route::post('/register', 'App\Http\Controllers\Auth\SessionController@login');
+    Route::post('/register', 'App\Http\Controllers\User\UserController@create');
     Route::post('/logout', 'App\Http\Controllers\Auth\SessionController@logout');
     Route::post('/refresh', 'App\Http\Controllers\Auth\SessionController@refresh');
     /**
      * Session
      * @return $user
-     */
-    Route::get('/user-profile', [AuthController::class, 'userProfile']);    
+    */
+    Route::get('/me', 'App\Http\Controllers\User\UserController@me');    
+    /**
+     * Group
+     * @return $group
+    */
+    Route::get('/group', 'App\Http\Controllers\Group\GroupController@index');    
+    /**
+     * Group
+     * @return $group
+    */
 });
