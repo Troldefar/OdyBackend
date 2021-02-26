@@ -20,5 +20,17 @@ Route::group([
   'middleware' => 'api',
   'prefix' => 'auth'
 ], function ($router) {
-  Route::post('/login', 'App\Http\Controllers\Auth\SessionController@login');
+    /**
+     * Session
+     * @return $sessionvars
+     */
+    Route::post('/login', 'App\Http\Controllers\Auth\SessionController@login');
+    Route::post('/register', 'App\Http\Controllers\Auth\SessionController@login');
+    Route::post('/logout', 'App\Http\Controllers\Auth\SessionController@logout');
+    Route::post('/refresh', 'App\Http\Controllers\Auth\SessionController@refresh');
+    /**
+     * Session
+     * @return $user
+     */
+    Route::get('/user-profile', [AuthController::class, 'userProfile']);    
 });
