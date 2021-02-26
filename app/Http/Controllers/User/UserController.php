@@ -18,7 +18,7 @@ class UserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['create']]);
+        $this->middleware(['auth' => 'api'])->except('login');
     }
 
     /**
@@ -40,6 +40,7 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required|string|unique:users',
+            'name' => 'required|string',
             'password' => 'required|string'
         ]);
         User::create([
