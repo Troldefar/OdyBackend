@@ -19,7 +19,17 @@ class SessionController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['auth' => 'api'])->except('login');
+        $this->middleware(['auth' => 'api'])->except(['login', 'index']);
+    }
+
+    /**
+     * Index 
+     * Ping pong to make sure connection is running
+    */
+
+    public function index()
+    {
+        return response()->json('Pong', 200);
     }
 
     /**
@@ -43,16 +53,6 @@ class SessionController extends Controller
         }
 
         return $this->createNewToken($token);
-    }
-    
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        return 123;
     }
 
     /**
