@@ -32,14 +32,33 @@ Route::group([
      * Session
      * @return $user
     */
-    Route::get('/me', 'App\Http\Controllers\User\UserController@me');    
+    Route::get('/me', 'App\Http\Controllers\User\UserController@me');
     /**
      * Group
      * @return $group
     */
-    Route::get('/group', 'App\Http\Controllers\Group\GroupController@index');    
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'group'
+], function($router) {
     /**
      * Group
      * @return $group
     */
+    Route::get('/', 'App\Http\Controllers\Group\GroupController@index');
+    Route::get('/group/{group}', 'App\Http\Controllers\Group\GroupController@show');    
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'guild'
+], function($router) {
+    /**
+     * Group
+     * @return $guild
+    */
+    Route::get('/', 'App\Http\Controllers\Guild\GuildController@index');
+    Route::get('/guild/{guild}', 'App\Http\Controllers\Guild\GuildController@show');    
 });

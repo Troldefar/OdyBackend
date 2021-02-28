@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGuildTable extends Migration
+class CreateUserFilterTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateGuildTable extends Migration
      */
     public function up()
     {
-        Schema::create('guild', function (Blueprint $table) {
+        Schema::create('user_filter', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('description');
-            $table->unsignedBigInteger('created_by_user');
-            $table->foreign('created_by_user')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateGuildTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('guild');
+        Schema::dropIfExists('user_filter');
     }
 }
