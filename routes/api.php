@@ -42,8 +42,7 @@ Route::group([
      * Group
      * @return $group
     */
-    Route::get('/', 'App\Http\Controllers\Group\GroupController@index');
-    Route::get('/group/{group}', 'App\Http\Controllers\Group\GroupController@show');    
+    Route::apiResource('group', 'App\Http\Controllers\Group\GroupController');    
 });
 
 Route::group([
@@ -54,8 +53,7 @@ Route::group([
      * Group
      * @return $guild
     */
-    Route::get('/', 'App\Http\Controllers\Guild\GuildController@index');
-    Route::get('/guild/{guild}', 'App\Http\Controllers\Guild\GuildController@show');    
+    Route::apiResource('guild', 'App\Http\Controllers\Guild\GuildController');  
 });
 
 Route::fallback(function() {
