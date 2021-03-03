@@ -15,33 +15,22 @@ Route::group([
   'middleware' => 'api',
   'prefix' => 'auth'
 ], function ($router) {
-    /**
-     * Session
-     * @return $sessionvars
-    */
-    Route::post('/login', 'App\Http\Controllers\Auth\SessionController@login');
-    Route::post('/register', 'App\Http\Controllers\User\UserController@create');
-    Route::post('/logout', 'App\Http\Controllers\Auth\SessionController@logout');
-    Route::post('/refresh', 'App\Http\Controllers\Auth\SessionController@refresh');
-    /**
-     * Session
-     * @return $user
-    */
-    Route::get('/me', 'App\Http\Controllers\User\UserController@me');
-    /**
-     * Group
-     * @return $group
-    */
+    Route::post('login', 'App\Http\Controllers\Auth\SessionController@login');
+    Route::apiResource('auth', 'App\Http\Controllers\Auth\SessionController');
+});
+
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'user'
+], function($router) {
+    Route::post('register', 'App\Http\Controllers\user\UserController@create');
+    Route::apiResource('user', 'App\Http\Controllers\User\UserController');
 });
 
 Route::group([
     'middleware' => 'api',
     'prefix' => 'group'
 ], function($router) {
-    /**
-     * Group
-     * @return $group
-    */
     Route::apiResource('group', 'App\Http\Controllers\Group\GroupController');    
 });
 
@@ -49,10 +38,6 @@ Route::group([
     'middleware' => 'api',
     'prefix' => 'guild'
 ], function($router) {
-    /**
-     * Group
-     * @return $guild
-    */
     Route::apiResource('guild', 'App\Http\Controllers\Guild\GuildController');  
 });
 
