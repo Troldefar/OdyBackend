@@ -48,11 +48,16 @@ class SessionController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        if($token = auth()->attempt($validator->validated())) {
-            return response()->json(['error' => 'Unauthorized'], 401);
+        $attempt = auth()->attempt(array(
+            'email' => $request->input('email'), 
+            'password' => $request->input('password'))
+        );
+
+        if(!$token = $attempt) {
+            return response()->json(['error' => 'Something went wrong'], 401);
         }
 
-        return $this->createNewToken($token);
+        return response()->json($this->createNewToken($token), 200);
     }
 
     /**
