@@ -43,12 +43,14 @@ class UserController extends Controller
             'name' => 'required|string',
             'password' => 'required|string',
             'country' => 'required|string',
+            'favorite_game' => 'required|string',
             'age' => 'required|integer'
         ]);
         User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'password' => Hash::make($request->input('password')),
+            'favorite_game' => $request->input('favorite_game'),
             'country' => $request->input('country'),
             'age' => $request->input('age')
         ]);

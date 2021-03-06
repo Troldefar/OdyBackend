@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('country');
             $table->integer('age');
             $table->integer('niceness')->default(0);
-            $table->string('favorite_game')->default('');
+            $table->string('favorite_game');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
