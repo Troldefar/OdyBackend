@@ -24,6 +24,7 @@ Route::group([
     'prefix' => 'user'
 ], function($router) {
     Route::post('register', 'App\Http\Controllers\user\UserController@create');
+    Route::post('update', 'App\Http\Controllers\user\UserController@update');
     Route::apiResource('user', 'App\Http\Controllers\User\UserController');
 });
 
