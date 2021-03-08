@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Search;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+Use App\Models\User;
 
 class SearchController extends Controller
 {
@@ -12,9 +13,14 @@ class SearchController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->query('query');
+        $response = User::query()
+            ->where('name', 'LIKE', "%" . $search . "%")
+            ->orWhere('email', 'LIKE', "%" . $search . "%")
+            ->get();
+        return response()->json($response, 200);
     }
 
     /**
