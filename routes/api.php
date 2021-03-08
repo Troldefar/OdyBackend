@@ -42,6 +42,13 @@ Route::group([
     Route::apiResource('guild', 'App\Http\Controllers\Guild\GuildController');  
 });
 
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'search'
+], function($router) {
+    Route::apiResource('search', 'App\Http\Controllers\Search\SearchController');
+});
+
 Route::fallback(function() {
   return response()->json('Resource not found', 404);
 });
