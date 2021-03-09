@@ -16,6 +16,9 @@ class SearchController extends Controller
     public function index(Request $request)
     {
         $search = $request->query('query');
+        if($search === '') {
+            return response()->json('empty', 200);
+        }
         $response = User::query()
             ->where('name', 'LIKE', "%" . $search . "%")
             ->orWhere('email', 'LIKE', "%" . $search . "%")
